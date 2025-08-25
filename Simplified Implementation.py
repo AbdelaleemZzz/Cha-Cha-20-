@@ -1,27 +1,23 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
 from cryptography.hazmat.backends import default_backend
 import os
+import time
 
-# Generate key (32 bytes = 256-bit)
 key = os.urandom(32)
+nonce = os.urandom(16)
 
-# Generate nonce (12 bytes)
-nonce = os.urandom(16)  # cryptography uses 16-byte nonce for ChaCha20
+with open("testing_file.txt", "rb") as f:
+    plaintext = f.read()
 
-# Message
-plaintext = b"ChaCha20 is cool"
-
-# Encrypt
+start = time.time()
 algorithm = algorithms.ChaCha20(key, nonce)
 cipher = Cipher(algorithm, mode=None, backend=default_backend())
 encryptor = cipher.encryptor()
 ciphertext = encryptor.update(plaintext)
+end = time.time()
 
-# Decrypt
-decryptor = cipher.decryptor()
-decrypted = decryptor.update(ciphertext)
+with open("encrypted_crypto.bin", "wb") as f:
+    f.write(ciphertext)
 
-# Output
-print("Original:  ", plaintext)
-print("Encrypted: ", ciphertext.hex())
-print("Decrypted: ", decrypted)
+print("Cencryption completed.")
+print(f"Time taken: {(end - start) * 1000:.4f} ms")
