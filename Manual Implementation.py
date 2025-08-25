@@ -27,14 +27,23 @@ def chacha20_block(key, counter, nonce):
     working_state = state.copy()
 
     for _ in range(10):
-        working_state[0], working_state[4], working_state[8], working_state[12] = quarter_round(working_state[0], working_state[4], working_state[8], working_state[12])
-        working_state[1], working_state[5], working_state[9], working_state[13] = quarter_round(working_state[1], working_state[5], working_state[9], working_state[13])
-        working_state[2], working_state[6], working_state[10], working_state[14] = quarter_round(working_state[2], working_state[6], working_state[10], working_state[14])
-        working_state[3], working_state[7], working_state[11], working_state[15] = quarter_round(working_state[3], working_state[7], working_state[11], working_state[15])
-        working_state[0], working_state[5], working_state[10], working_state[15] = quarter_round(working_state[0], working_state[5], working_state[10], working_state[15])
-        working_state[1], working_state[6], working_state[11], working_state[12] = quarter_round(working_state[1], working_state[6], working_state[11], working_state[12])
-        working_state[2], working_state[7], working_state[8], working_state[13] = quarter_round(working_state[2], working_state[7], working_state[8], working_state[13])
-        working_state[3], working_state[4], working_state[9], working_state[14] = quarter_round(working_state[3], working_state[4], working_state[9], working_state[14])
+        working_state[0], working_state[4], working_state[8], working_state[12] = quarter_round(
+            working_state[0], working_state[4], working_state[8], working_state[12])
+        working_state[1], working_state[5], working_state[9], working_state[13] = quarter_round(
+            working_state[1], working_state[5], working_state[9], working_state[13])
+        working_state[2], working_state[6], working_state[10], working_state[14] = quarter_round(
+            working_state[2], working_state[6], working_state[10], working_state[14])
+        working_state[3], working_state[7], working_state[11], working_state[15] = quarter_round(
+            working_state[3], working_state[7], working_state[11], working_state[15])
+
+        working_state[0], working_state[5], working_state[10], working_state[15] = quarter_round(
+            working_state[0], working_state[5], working_state[10], working_state[15])
+        working_state[1], working_state[6], working_state[11], working_state[12] = quarter_round(
+            working_state[1], working_state[6], working_state[11], working_state[12])
+        working_state[2], working_state[7], working_state[8], working_state[13] = quarter_round(
+            working_state[2], working_state[7], working_state[8], working_state[13])
+        working_state[3], working_state[4], working_state[9], working_state[14] = quarter_round(
+            working_state[3], working_state[4], working_state[9], working_state[14])
 
     result = [(working_state[i] + state[i]) & 0xffffffff for i in range(16)]
     return struct.pack('<16L', *result)
@@ -42,12 +51,16 @@ def chacha20_block(key, counter, nonce):
 def chacha20_encrypt(key, nonce, counter, plaintext):
     assert len(key) == 32
     assert len(nonce) == 12
-    keystream = b''
-    blocks = (len(plaintext) + 63) // 64
-    for i in range(blocks):
-        block = chacha20_block(key, counter + i, nonce)
-        keystream += block
-    return bytes([p ^ k for p, k in zip(plaintext, keystream[:len(plaintext)])])
+
+    ciphertext = bytearray(len(plaintext))
+    for i in range(0, len(plaintext), 64):
+        block = chacha20_block(key, counter, nonce)
+        chunk = plaintext[i:i + 64]
+        for j in range(len(chunk)):
+            ciphertext[i + j] = chunk[j] ^ block[j]
+        counter = (counter + 1) & 0xffffffff
+
+    return bytes(ciphertext)
 
 # === File-based encryption ===
 if __name__ == "__main__":
@@ -62,8 +75,8 @@ if __name__ == "__main__":
     ciphertext = chacha20_encrypt(key, nonce, counter, plaintext)
     end = time.time()
 
-    with open("encrypted_manual_output.bin", "wb") as f:
+    with open("encrypted_manual_optimized.bin", "wb") as f:
         f.write(ciphertext)
 
-    print("0encryption completed.")
+    print("Encryption completed.")
     print(f"Time taken: {(end - start) * 1000:.2f} ms")
