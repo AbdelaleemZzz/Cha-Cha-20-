@@ -15,15 +15,12 @@ ChaCha20 is a fast and secure stream cipher designed by Daniel J. Bernstein. Thi
 │   ├── ChaCha20_Report.tex
 │   └── ChaCha20_Report.pdf
 ├── src/
-│   ├── chacha20_manual.py        # Manual ChaCha20 implementation
-│   ├── chacha20_optimized.py     # Optimized version of manual code
-│   └── chacha20_library.py       # Cryptography library-based version
+│   ├── Manual Implementation.py        # Manual ChaCha20 implementation
+│   └── Simplified Implementation.py       # Cryptography library-based version
 ├── test/
 │   ├── testing_file.txt          # 1MB test file for encryption
 │   ├── encrypted_manual_output.bin
 │   └── encrypted_library_output.bin
-├── outputs/
-│   ├── timings.txt               # Recorded performance data
 └── README.md
 ```
 
