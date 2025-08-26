@@ -11,14 +11,14 @@ ChaCha20 is a fast and secure stream cipher designed by Daniel J. Bernstein. Thi
 
 ```
  ChaCha20-Internship/
-├── report/                       # LaTeX report and final PDF
+├── report/                       
 │   ├── ChaCha20_Report.tex
 │   └── ChaCha20_Report.pdf
 ├── src/
-│   ├── Manual Implementation.py        # Manual ChaCha20 implementation
-│   └── Simplified Implementation.py       # Cryptography library-based version
+│   ├── Manual Implementation.py     
+│   └── Simplified Implementation.py       
 ├── test/
-│   ├── testing_file.txt          # 1MB test file for encryption
+│   ├── testing_file.txt        
 │   ├── encrypted_manual_output.bin
 │   └── encrypted_library_output.bin
 │   └── encrypted_manual_optimized.bin
