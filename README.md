@@ -1,7 +1,7 @@
 
 #  ChaCha20 Encryption Internship Project
 
-This repository contains the deliverables for the internship project titled **"ChaCha20: A Modern Encryption Method and Implementation in Python"** under the supervision of **Dr. Mohamed Samir**.
+This repository contains the deliverables for the internship project titled **"ChaCha20: A Modern Encryption Method "** under the supervision of **Dr. Mohamed Samir**.
 
 ##  Overview
 
