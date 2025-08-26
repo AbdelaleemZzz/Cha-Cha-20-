@@ -18,7 +18,6 @@ ChaCha20 is a fast and secure stream cipher designed by Daniel J. Bernstein. Thi
 │   └── Simplified Implementation.py       
 ├── test/
 │   ├── testing_file.txt        
-│   ├── encrypted_manual_output.bin
 │   └── encrypted_library_output.bin
 │   └── encrypted_manual_optimized.bin
 └── README.md
