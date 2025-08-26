@@ -57,7 +57,7 @@ Make sure `testing_file.txt` is present in the working directory. It will be enc
 
 ##  Final Report
 
-A detailed report written in LaTeX can be found in the `/report/` folder. It covers:
+A detailed report can be found in the `/report/` folder. It covers:
 
 - History and use cases of ChaCha20
 - State matrix explanation
